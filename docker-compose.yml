@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  proxy:
+    image: cue-splitter/proxy
+    container_name: proxy
+    ports:
+      - "80:80"
+    networks:
+      - app_nat
+    restart: always
+    
+  backend:
+    image: cue-splitter/splitter
+    container_name: splitter
+    ports:
+      - "5000:5000"
+    networks:
+      - app_nat
+    restart: always
+
+  database:
+    image: postgres:17.2
+    container_name: my-postgres-database
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: music_chops
+    ports:
+      - "5432:5432"
+    networks:
+      - app_nat
+    restart: always
+
+networks:
+  app_nat:
+    driver: bridge
+

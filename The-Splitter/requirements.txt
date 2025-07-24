@@ -1,0 +1,8 @@
+ffcuesplitter
+pytest
+Flask
+Werkzeug
+requests
+flask-cors
+psycopg2-binary
+setuptools

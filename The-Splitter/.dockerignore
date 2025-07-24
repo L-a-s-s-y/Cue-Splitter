@@ -1,0 +1,7 @@
+test
+venv
+ffcuesplitter_rest_api.egg-info
+build
+*.yml
+.*
+logs

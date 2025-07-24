@@ -1,0 +1,25 @@
+<!--<!DOCTYPE html>
+    <title>Upload the files</title>
+    <h1>Upload the files</h1>
+    <form method=POST enctype=multipart/form-data action=/upload>
+    <input type=file name=file[] multiple="">
+    <input type=submit value=Upload>
+    </form>
+</html>-->
+
+<!DOCTYPE html>
+    <title>Upload the files</title>
+    <h1>Upload the files</h1>
+    <form method=POST enctype=multipart/form-data action=/upload>
+        <h3>Select the cue file</h3>
+        <input type=file name=file_cue accept="application/x-cue, .cue, .CUE">
+        <br>
+        <h3>Select the audio file</h3>
+        <input type=file name=file_audio accept=
+        "audio/flac, audio/ogg, audio/opus, audio/vorbis, audio/mpeg, audio/x-wav, 
+        .ape, audio/x-ape, .wav, .mp3, .flac, .ogg">
+        <br>
+        <h3>Upload</h3>
+        <input type=submit value=Upload>
+    </form>
+</html>

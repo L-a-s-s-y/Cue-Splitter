@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+    <title>ERROR!!!!!!!!!!!!</title>
+    <h1>ERROR!!!!!!!!!!!!</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+    <br>
+    <h3>The files uploaded were:</h3>
+        <ul>
+        {% for file in files %}
+            <li>{{ file }}</li>
+        {% endfor %}
+        </ul>
+    <h2><a href="/upload">Try again?</a></h2>
+</html>

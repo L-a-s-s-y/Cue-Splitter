@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+    <head>
+        <title>Info</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style_info.css') }}">
+        <script>
+            function updateOptions() {
+                const format = document.getElementById("output").value;
+                const optionDivs = document.querySelectorAll(".format-options");
+                optionDivs.forEach(div => {
+                    div.style.display = "none";
+                });
+                const selectedDiv = document.getElementById("options-" + format);
+                if (selectedDiv) {
+                    selectedDiv.style.display = "block";
+                }
+            }
+            window.addEventListener('DOMContentLoaded', function () {
+                document.getElementById("output").addEventListener("change", updateOptions);
+                updateOptions(); // Call once to initialize
+            });
+        </script>
+    </head>
+    <div class="container">
+        <div class="left-panel">
+            <h2>Select your options</h2>
+            <form method=post>
+                <label for="output_formats">Output format</label>
+                <select name="output_format" id="output">
+                    <option value="copy">COPY</option>
+                    <option value="flac">FLAC</option>
+                    <option value="wav">WAV</option>
+                    <option value="ogg_vorbis">OGG Vorbis</option>
+                    <option value="ogg_opus">OGG Opus</option>
+                    <option value="mp3">MP3</option>
+                </select>
+                <br>
+                <br>
+                <!--FLAC OPTIONS-->
+                <div id="options-flac" class="format-options" style="display:none;">
+                    <label>Compression levels:</label>
+                    <select name="flac_compression_level">
+                        <option value="0">0 (No compression)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5" selected>5 (default)</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12 (Max compression)</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Sampling frecuency:</label>
+                    <select name="flac_ar">
+                        <option value="44100" selected>44100 Hz</option>
+                        <option value="48000">48000 Hz</option>
+                        <option value="88200">88200 Hz</option>
+                        <option value="96000">96000 Hz</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Bit depth:</label>
+                    <select name="flac_sample_fmt">
+                        <option value="16s" selected>16 Bit</option>
+                        <option value="32s">32 Bit</option>
+                    </select>
+                </div>
+                <!--WAV OPTIONS-->
+                <div id="options-wav" class="format-options" style="display:none;">
+                    <label>PCM:</label>
+                    <select name="wav_pcm">
+                        <option value="pcm_s16le" selected>16 bit PCM</option>
+                        <option value="pcm_s24le">24 bit PCM</option>
+                        <option value="pcm_s32le">32 bit PCM</option>
+                        <option value="pcm_f32le">32 bit float</option>
+                        <option value="pcm_f64le">64 bit float</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Sampling frecuency:</label>
+                    <select name="wav_ar">
+                        <option value="44100" selected>44100 Hz</option>
+                        <option value="48000">48000 Hz</option>
+                        <option value="88200">88200 Hz</option>
+                        <option value="96000">96000 Hz</option>
+                    </select>
+                </div>
+                <!--OGG vorbis OPTIONS-->
+                <div id="options-ogg_vorbis" class="format-options" style="display:none;">
+                    <label>Qualitty level:</label>
+                    <select name="ogg_quality">
+                        <option value="0">0 (Worst)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8" selected>8</option>
+                        <option value="9">9</option>
+                        <option value="10">10 (Better)</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Sampling frecuency:</label>
+                    <select name="ogg_ar">
+                        <option value="44100" selected>44100 Hz</option>
+                        <option value="48000">48000 Hz</option>
+                        <option value="88200">88200 Hz</option>
+                        <option value="96000">96000 Hz</option>
+                    </select>
+                </div>
+                <!--OGG opus OPTIONS-->
+                <div id="options-ogg_opus" class="format-options" style="display:none;">
+                    <label>Bitrate:</label>
+                    <select name="ogg_bitrate">
+                        <option value="64k">64 kbits/s</option>
+                        <option value="96k">96 kbits/s</option>
+                        <option value="128k">128 kbits/s</option>
+                        <option value="192k">192 kbits/s</option>
+                        <option value="256k">256 kbits/s</option>
+                        <option value="320k" selected>320 kbits/s</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Sampling frecuency:</label>
+                    <select name="ogg_ar">
+                        <option value="8000">8000 Hz</option>
+                        <option value="12000">12000 Hz</option>
+                        <option value="16000">16000 Hz</option>
+                        <option value="24000">24000 Hz</option>
+                        <option value="48000" selected>48000 Hz</option>
+                    </select>
+                </div>
+                <!--MP3 OPTIONS-->
+                <div id="options-mp3" class="format-options" style="display:none;">
+                    <label>Bitrate:</label>
+                    <select name="mp3_bitrate">
+                        <option value="128k">128 kbits/s</option>
+                        <option value="192k">192 kbits/s</option>
+                        <option value="256k">256 kbits/s</option>
+                        <option value="320k" selected>320 kbits/s</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Sample rate:</label>
+                    <select name="mp3_ar">
+                        <option value="8000">8000 Hz</option>
+                        <option value="11025">11025 Hz</option>
+                        <option value="12000">12000 Hz</option>
+                        <option value="16000">16000 Hz</option>
+                        <option value="22050">22050 Hz</option>
+                        <option value="24000">24000 Hz</option>
+                        <option value="32000">32000 Hz</option>
+                        <option value="44100" selected>44100 Hz</option>
+                        <option value="48000">48000 Hz</option>
+                    </select>
+                </div>
+                <br>
+                <br>
+                <button type=submit>Download your files</button>
+            </form>
+            <br>
+            <h2><a href="/upload">Subir otra CUE</a></h2>
+        </div>
+        <div class="right-panel">
+            <h3>Album Information:</h3>
+            <p><strong>Album:</strong> {{ respuesta.Album }}</p>
+            <p><strong>DISCID:</strong> {{ respuesta.DISCID }}</p>
+            <p><strong>Fecha:</strong> {{ respuesta.Fecha }}</p>
+            <p><strong>Género:</strong> {{ respuesta.Genero }}</p>
+            <p><strong>Intérpretes:</strong> {{ respuesta.Interpretes }}</p>
+            <p><strong>Catálogo:</strong> {{ respuesta.catalog }}</p>
+            <p><strong>Archivo CUE:</strong> {{ respuesta.cue_file }}</p>
+            <h3>Tracks:</h3>
+            <!--<p>{{ respuesta.tracks }}</p>-->
+            <ul>
+            {% for track in respuesta.tracks %}
+                <li>{{ track }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</html>

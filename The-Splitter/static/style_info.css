@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.left-panel {
+  margin-left: 16px;
+  width: 40%;
+}
+.right-panel {
+  width: 55%;
+  border-left: 2px solid #ccc;
+  padding-left: 20px;
+}
