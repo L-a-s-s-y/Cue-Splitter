@@ -13,6 +13,7 @@ import splitter
 
 UPLOAD_FOLDER = '/tmp'
 ALLOWED_EXTENSIONS = {'flac', 'ape', 'mp3', 'wav', 'ogg'}
+ALLOWED_CODECS = {'flac', 'opus', 'mp3', 'wav', 'ogg'}
 ALLOWED_CUE = {'cue'}
 
 app = Flask(__name__)
@@ -32,9 +33,28 @@ def allowed_audio(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def allowed_codec(filename):
+    return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_CODECS
+
 def allowed_cue(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in ALLOWED_CUE
+
+def check_codec_target_file(cue_sheet):
+    cue_path = os.path.join(app.config['UPLOAD_FOLDER'], cue_sheet)
+    codec_allowed = False
+
+    if os.path.exists(cue_path): # Si el cue está en el servidor
+        result = from_path(cue_path)
+        best_match = result.best()
+        with open(cue_path, 'r', encoding=best_match.encoding) as mod_cue:
+            cue_en_lista = [line for line in mod_cue]
+        for i in range(len(cue_en_lista)):
+            if cue_en_lista[i].split(' ')[0] == "FILE":
+                audio_file = cue_en_lista[i].split('\"')
+                codec_allowed = check_codec_target_file(audio_file[1])
+    return codec_allowed
 
 def mod_cue_target_file(cue_sheet):
     cue_path=os.path.join(app.config['UPLOAD_FOLDER'], cue_sheet)
