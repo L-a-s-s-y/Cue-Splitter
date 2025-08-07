@@ -9,7 +9,7 @@ nginx.conf
 the_app
 *.log
 tests
-
+ffprobe_datos
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

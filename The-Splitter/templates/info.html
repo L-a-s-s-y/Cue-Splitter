@@ -28,6 +28,8 @@
                 <select name="output_format" id="output">
                     <option value="copy">COPY</option>
                     <option value="flac">FLAC</option>
+                    <option value="wavpack">WavPack (loseless)</option>
+                    <option value="wavpack_l">WavPack (loss)</option>
                     <option value="wav">WAV</option>
                     <option value="ogg_vorbis">OGG Vorbis</option>
                     <option value="ogg_opus">OGG Opus</option>
@@ -68,6 +70,87 @@
                     <select name="flac_sample_fmt">
                         <option value="s16" selected>16 Bit</option>
                         <option value="s32">32 Bit</option>
+                    </select>
+                </div>
+                <!--WAVPACK OPTIONS LOSSLESS-->
+                <div id="options-wavpack" class="format-options" style="display:none;">
+                    <label>Compression levels:</label>
+                    <select name="wv_compression_level">
+                        <option value="0">0 (No compression)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5" selected>5 (default)</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10 (Max compression)</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Sampling frecuency:</label>
+                    <select name="wv_ar">
+                        <option value="44100" selected>44100 Hz</option>
+                        <option value="48000">48000 Hz</option>
+                        <option value="88200">88200 Hz</option>
+                        <option value="96000">96000 Hz</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Bit depth:</label>
+                    <select name="wv_sample_fmt">
+                        <option value="u8p">8 Bit</option>
+                        <option value="s16p" selected>16 Bit</option>
+                        <option value="s32p">32 Bit</option>
+                        <option value="fltp">Planar Floating Point</option>
+                    </select>
+                </div>
+                <!--WAVPACK OPTIONS LOSS-->
+                <div id="options-wavpack_l" class="format-options" style="display:none;">
+                    <label>Compression levels:</label>
+                    <select name="wv_compression_level">
+                        <option value="0">0 (No compression)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5" selected>5 (default)</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10 (Max compression)</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Sampling frecuency:</label>
+                    <select name="wv_ar">
+                        <option value="44100" selected>44100 Hz</option>
+                        <option value="48000">48000 Hz</option>
+                        <option value="88200">88200 Hz</option>
+                        <option value="96000">96000 Hz</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Bit depth:</label>
+                    <select name="wv_sample_fmt">
+                        <option value="u8p">8 Bit</option>
+                        <option value="s16p" selected>16 Bit</option>
+                        <option value="s32p">32 Bit</option>
+                        <option value="fltp">Planar Floating Point</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label>Bit depth:</label>
+                    <select name="wv_bitrate">
+                        <option value="64k">64 kbits/s</option>
+                        <option value="96k">96 kbits/s</option>
+                        <option value="128k">128 kbits/s</option>
+                        <option value="192k">192 kbits/s</option>
+                        <option value="256k">256 kbits/s</option>
+                        <option value="320k" selected>320 kbits/s</option>
                     </select>
                 </div>
                 <!--WAV OPTIONS-->

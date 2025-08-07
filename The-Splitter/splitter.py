@@ -5,7 +5,7 @@ import psycopg2
 import os
 from charset_normalizer import from_path
 
-ALLOWED_EXTENSIONS = {'flac', 'opus', 'mp3', 'wav', 'ogg'}
+ALLOWED_EXTENSIONS = {'flac', 'opus', 'mp3', 'wav', 'ogg', 'wv'}
 
 def crear_tabla(conexion, el_cursor):
     el_cursor.execute("SELECT EXISTS(SELECT * FROM information_schema.tables WHERE table_name=%s)",("chopped_musical",))
@@ -151,6 +151,7 @@ def check_codec_target_file(cue_path):
 def split_it_like_solomon(
 cue_file, output_format, 
 flac_compression_level, flac_ar, flac_sample_fmt, 
+wv_compression_level, wv_ar, wv_sample_fmt, wv_bitrate, 
 wav_pcm, wav_ar, 
 ogg_bitrate, ogg_quality, ogg_ar,
 mp3_bitrate, mp3_ar):
@@ -179,6 +180,12 @@ mp3_bitrate, mp3_ar):
     elif output_format == 'mp3':
         final_outputformat = output_format
         final_ffmpeg_add_params = f'-c:a libmp3lame -ar {mp3_ar} -b:a {mp3_bitrate}'
+    elif output_format == 'wavpack':
+        final_outputformat = 'wv'
+        final_ffmpeg_add_params = f'-c:a wavpack -compression_level {wv_compression_level} -sample_fmt {wv_ar} -ar {wv_sample_fmt}'
+    elif output_format == 'wavpack_l':
+        final_outputformat = 'wv'
+        final_ffmpeg_add_params = f'-c:a wavpack -b:a {wv_bitrate} -compression_level {wv_compression_level} -sample_fmt {wv_ar} -ar {wv_sample_fmt}'
 
     print(final_outputformat)
     split = FileSystemOperations(

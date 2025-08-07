@@ -12,7 +12,7 @@ import splitter
 #flask --app api run --host='0.0.0.0'
 
 UPLOAD_FOLDER = '/tmp'
-ALLOWED_EXTENSIONS = {'flac', 'ape', 'mp3', 'wav', 'ogg'}
+ALLOWED_EXTENSIONS = {'flac', 'ape', 'mp3', 'wav', 'ogg', 'wv'}
 ALLOWED_CODECS = {'flac', 'opus', 'mp3', 'wav', 'ogg'}
 ALLOWED_CUE = {'cue'}
 
@@ -93,6 +93,8 @@ def process_files(cue_file, audio_file):
             filenames = []
             filenames.append(cue_file)
             filenames.append(audio_file)
+            filenames.append(expected_audio_file)
+            filenames.append(audio_name)
             return render_template("error_template.html", files=filenames)
         audio_file.save(os.path.join(app.config['UPLOAD_FOLDER'], audio_name))
         return redirect(url_for('info_cue', name=cue_name))
@@ -164,6 +166,10 @@ def download_file(name):
             flac_compression_level=request.form.get("flac_compression_level"),
             flac_ar=request.form.get("flac_ar"),
             flac_sample_fmt=request.form.get("flac_sample_fmt"),
+            wv_compression_level=request.form.get("wv_compression_level"),
+            wv_ar=request.form.get("wv_ar"),
+            wv_sample_fmt=request.form.get("wv_sample_fmt"),
+            wv_bitrate=request.form.get("wv_bitrate"),
             wav_pcm=request.form.get("flac_sample_fmt"),
             wav_ar=request.form.get("wav_ar"),
             ogg_bitrate=request.form.get("ogg_bitrate"),
