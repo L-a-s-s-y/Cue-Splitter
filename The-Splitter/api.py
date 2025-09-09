@@ -16,11 +16,15 @@ ALLOWED_EXTENSIONS = {'flac', 'ape', 'mp3', 'wav', 'ogg', 'wv'}
 ALLOWED_CODECS = {'flac', 'opus', 'mp3', 'wav', 'ogg'}
 ALLOWED_CUE = {'cue'}
 
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.wsgi_app = ProxyFix(
     app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
 )
+# Needed in order to use the flash method in flask
 app.secret_key = os.urandom(24)
 
 el_logger = logging.getLogger()
@@ -171,14 +175,14 @@ def download_file(name):
             wv_ar=request.form.get("wv_ar"),
             wv_sample_fmt=request.form.get("wv_sample_fmt"),
             wv_bitrate=request.form.get("wv_bitrate"),
-            wav_pcm=request.form.get("flac_sample_fmt"),
+            wav_pcm=request.form.get("wav_pcm"),
             wav_ar=request.form.get("wav_ar"),
             ogg_bitrate=request.form.get("ogg_bitrate"),
             ogg_quality=request.form.get("ogg_quality"),
-            ogg_ar=request.form.get("mp3_bitrate"),
+            ogg_ar=request.form.get("ogg_ar"),
             mp3_bitrate=request.form.get("mp3_bitrate"),
             mp3_ar=request.form.get("mp3_ar"),
-            orig_codec=request.form.get("codec"),
+            orig_codec=request.form.get("orig_codec"),
             orig_sample_rate=request.form.get("orig_sample_rate"),
             orig_sample_fmt=request.form.get("orig_sample_fmt")
         )

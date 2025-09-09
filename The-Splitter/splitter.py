@@ -119,14 +119,14 @@ orig_codec, orig_sample_rate, orig_sample_fmt):
         final_outputformat = 'wv'
         final_ffmpeg_add_params = f'-map 0:a:0 -vn -c:a wavpack -b:a {wv_bitrate} -compression_level {wv_compression_level} -sample_fmt {wv_ar} -ar {wv_sample_fmt}'
 
-    #print(final_outputformat)
+    print(cue_file.split('.')[0])
+    
     split = FileSystemOperations(
         filename=cue_file,
         outputdir=cue_file.split('.')[0],
         del_orig_files=True,
         outputformat=final_outputformat,
         ffmpeg_add_params=final_ffmpeg_add_params,
-        #ffmpeg_add_params='-c copy',
         progress_meter='tqdm',
         prg_loglevel='info',
         ffmpeg_loglevel='error',
