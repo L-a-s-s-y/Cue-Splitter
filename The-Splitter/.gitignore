@@ -7,6 +7,9 @@ ffcuesplitter_rest_api.egg-info
 # *.mp3
 nginx.conf
 the_app
+ffprobe_data
+suported_codecs
+unsuported_codecs
 *.log
 tests
 ffprobe_datos

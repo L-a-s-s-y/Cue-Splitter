@@ -18,7 +18,6 @@ setup(
         "Werkzeug",
         "requests",
         "flask-cors",
-        "psycopg2-binary"
     ],
     entry_points={
         "console_scripts": [

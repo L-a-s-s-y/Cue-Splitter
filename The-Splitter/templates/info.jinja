@@ -4,15 +4,31 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='style_info.css') }}">
         <script>
             function updateOptions() {
+                const datos = {{ respuesta|tojson|safe }};  // <-- mismo nombre
+                const copia = document.getElementById("can-copy");
+
+                //'display' en <option> no es fiable. Mejor 'hidden' o 'disabled'
+                if (copia) {
+                    const hideCopy = datos.codec_name === "ape";
+                    copia.hidden = hideCopy;      // oculta la opción correctamente
+                    copia.disabled = hideCopy;    // evita que se seleccione
+                    // Si estaba seleccionado y lo ocultas, fuerza otro valor:
+                    if (hideCopy && document.getElementById("output").value === "copy") {
+                        document.getElementById("output").value = "flac";
+                    }
+                }
+
                 const format = document.getElementById("output").value;
                 const optionDivs = document.querySelectorAll(".format-options");
                 optionDivs.forEach(div => {
                     div.style.display = "none";
                 });
+
                 const selectedDiv = document.getElementById("options-" + format);
                 if (selectedDiv) {
                     selectedDiv.style.display = "block";
                 }
+            
             }
             window.addEventListener('DOMContentLoaded', function () {
                 document.getElementById("output").addEventListener("change", updateOptions);
@@ -26,7 +42,7 @@
             <form method=post>
                 <label for="output_formats">Output format</label>
                 <select name="output_format" id="output">
-                    <option value="copy">COPY</option>
+                    <option id="can-copy" style="display:inline;" value="copy">COPY</option>
                     <option value="flac">FLAC</option>
                     <option value="wavpack">WavPack (loseless)</option>
                     <option value="wavpack_l">WavPack (loss)</option>
@@ -143,7 +159,7 @@
                     </select>
                     <br>
                     <br>
-                    <label>Bit depth:</label>
+                    <label>Bitrate:</label>
                     <select name="wv_bitrate">
                         <option value="64k">64 kbits/s</option>
                         <option value="96k">96 kbits/s</option>
@@ -247,6 +263,9 @@
                 </div>
                 <br>
                 <br>
+                <input type="hidden" name="codec" value="{{ respuesta.codec_name }}">
+                <input type="hidden" name="orig_sample_rate" value="{{ respuesta.sample_rate }}">
+                <input type="hidden" name="orig_sample_fmt" value="{{ respuesta.sample_fmt }}">
                 <button type=submit>Download your files</button>
             </form>
             <br>
@@ -256,11 +275,18 @@
             <h3>Album Information:</h3>
             <p><strong>Album:</strong> {{ respuesta.Album }}</p>
             <p><strong>DISCID:</strong> {{ respuesta.DISCID }}</p>
-            <p><strong>Fecha:</strong> {{ respuesta.Fecha }}</p>
-            <p><strong>Género:</strong> {{ respuesta.Genero }}</p>
-            <p><strong>Intérpretes:</strong> {{ respuesta.Interpretes }}</p>
-            <p><strong>Catálogo:</strong> {{ respuesta.catalog }}</p>
-            <p><strong>Archivo CUE:</strong> {{ respuesta.cue_file }}</p>
+            <p><strong>Date:</strong> {{ respuesta.Fecha }}</p>
+            <p><strong>Genre:</strong> {{ respuesta.Genero }}</p>
+            <p><strong>Performer:</strong> {{ respuesta.Interpretes }}</p>
+            <p><strong>Catalog:</strong> {{ respuesta.catalog }}</p>
+            <p><strong>CUE file:</strong> {{ respuesta.cue_file }}</p>
+            <br>
+            <p><strong>Codec:</strong> {{ respuesta.codec_long_name }}</p>
+            <p><strong>Sample rate:</strong> {{ respuesta.sample_rate }} Hz</p>
+            <p><strong>Bit depth:</strong> {{ respuesta.sample_fmt }}</p>
+            <p><strong>Channels:</strong> {{ respuesta.channels }}</p>
+            <p><strong>Channel layout:</strong> {{ respuesta.channel_layout }}</p>
+            <br>
             <h3>Tracks:</h3>
             <!--<p>{{ respuesta.tracks }}</p>-->
             <ul>

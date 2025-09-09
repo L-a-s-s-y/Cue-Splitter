@@ -18,9 +18,9 @@ ALLOWED_CUE = {'cue'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-#app.wsgi_app = ProxyFix(
-#    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
-#)
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 app.secret_key = os.urandom(24)
 
 el_logger = logging.getLogger()
@@ -33,9 +33,9 @@ def allowed_audio(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def allowed_codec(filename):
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1].lower() in ALLOWED_CODECS
+#def allowed_codec(filename):
+#    return '.' in filename and \
+#            filename.rsplit('.', 1)[1].lower() in ALLOWED_CODECS
 
 def allowed_cue(filename):
     return '.' in filename and \
@@ -147,7 +147,7 @@ def info_cue(name):
     try:
         respuesta = splitter.album_info(os.path.join(app.config['UPLOAD_FOLDER'], name))
         respuesta['cue_file'] = name
-        return render_template('info.html', respuesta=respuesta)
+        return render_template('info.jinja', respuesta=respuesta)
     except InvalidFileError:
         error = {}
         error['error'] = "InvalidFileError: "+name+" no existe en el directorio."
@@ -159,6 +159,7 @@ def info_cue(name):
 
 @app.route('/info/<name>', methods=['POST'])
 def download_file(name):
+    #print(request.form.get("codec"))
     try:
         comprimido = splitter.split_it_like_solomon(
             cue_file=os.path.join(app.config['UPLOAD_FOLDER'], name),
@@ -176,7 +177,10 @@ def download_file(name):
             ogg_quality=request.form.get("ogg_quality"),
             ogg_ar=request.form.get("mp3_bitrate"),
             mp3_bitrate=request.form.get("mp3_bitrate"),
-            mp3_ar=request.form.get("mp3_ar")
+            mp3_ar=request.form.get("mp3_ar"),
+            orig_codec=request.form.get("codec"),
+            orig_sample_rate=request.form.get("orig_sample_rate"),
+            orig_sample_fmt=request.form.get("orig_sample_fmt")
         )
         respuesta = send_from_directory(app.config['UPLOAD_FOLDER'], comprimido.split('/')[2])
         respuesta.headers['Access-Control-Expose-Headers'] = 'Content-Disposition'
@@ -186,10 +190,10 @@ def download_file(name):
         error = {}
         error['error'] = "InvalidFileError: "+name+" no existe en el directorio."
         return error
-    except FFCueSplitterError:
-        error = {}
-        error['error'] = "FFCueSplitterError: el archivo de audio no existe o no se puede abrir."
-        return error
+    #except FFCueSplitterError:
+    #    error = {}
+    #    error['error'] = "FFCueSplitterError: el archivo de audio no existe o no se puede abrir."
+    #    return error
 
 #@app.route('/info/<name>', methods=['POST'])
 #def fake_download(name):
