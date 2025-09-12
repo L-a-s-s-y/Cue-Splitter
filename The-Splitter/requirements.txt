@@ -1,7 +1,0 @@
-ffcuesplitter
-pytest
-Flask
-Werkzeug
-requests
-flask-cors
-setuptools

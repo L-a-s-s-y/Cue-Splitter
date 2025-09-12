@@ -6,8 +6,6 @@ setup(
     author="Lassy",
     #author_email="tu_email@ejemplo.com",
     description="Aplicación para procesar archivos de audio y cue con Flask",
-    long_description=open("README.md").read(),  # Asegúrate de tener un archivo README.md
-    long_description_content_type="text/markdown",
     #url="https://github.com/L-a-s-s-y/Proyecto-CC",  # Cambia esto si tienes un repositorio
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,

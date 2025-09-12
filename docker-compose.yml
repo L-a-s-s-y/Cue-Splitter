@@ -1,24 +1,22 @@
 services:
-  proxy:
-    image: cue-splitter/proxy
-    container_name: proxy
+  cue-splitter:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    container_name: cue-splitter
     ports:
-      - "80:80"
-    networks:
-      - app_nat
-    restart: always
-    
-  backend:
-    image: cue-splitter/splitter
-    container_name: splitter
-    ports:
-      - "5000:5000"
-    networks:
-      - app_nat
-    restart: always
+    - 80:80
+    - 5000:5000
+    environment:
+      - CUE_GUNICORN_WORKERS=4
+      - CUE_API_TIMEOUT=300
     volumes:
-      - /tmp/splitter:/tmp/splitter
+      - ./cue-splitter:/cue-splitter
+    networks:
+      - cue-splitter
+    restart: unless-stopped
+
 networks:
-  app_nat:
-    driver: bridge
+  cue-splitter:
+    name: cue-splitter
 
