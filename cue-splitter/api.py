@@ -103,6 +103,10 @@ def process_files(cue_file, audio_file):
         filenames.append(audio_file)
         return render_template("error_template.html", files=filenames)
 
+@app.route('/')
+def root():
+    return redirect(url_for('wellcome'))
+
 @app.route('/upload', methods=['GET'])
 def wellcome():
     return render_template('upload.html')
