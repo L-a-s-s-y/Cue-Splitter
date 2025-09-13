@@ -12,7 +12,6 @@ import splitter
 
 UPLOAD_FOLDER = '/tmp/splitter'
 ALLOWED_EXTENSIONS = {'flac', 'ape', 'mp3', 'wav', 'ogg', 'wv'}
-ALLOWED_CODECS = {'flac', 'opus', 'mp3', 'wav', 'ogg'}
 ALLOWED_CUE = {'cue'}
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -30,28 +29,9 @@ def allowed_audio(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-#def allowed_codec(filename):
-#    return '.' in filename and \
-#            filename.rsplit('.', 1)[1].lower() in ALLOWED_CODECS
-
 def allowed_cue(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in ALLOWED_CUE
-
-def check_codec_target_file(cue_sheet):
-    cue_path = os.path.join(app.config['UPLOAD_FOLDER'], cue_sheet)
-    codec_allowed = False
-
-    if os.path.exists(cue_path): # Si el cue está en el servidor
-        result = from_path(cue_path)
-        best_match = result.best()
-        with open(cue_path, 'r', encoding=best_match.encoding) as mod_cue:
-            cue_en_lista = [line for line in mod_cue]
-        for i in range(len(cue_en_lista)):
-            if cue_en_lista[i].split(' ')[0] == "FILE":
-                audio_file = cue_en_lista[i].split('\"')
-                codec_allowed = check_codec_target_file(audio_file[1])
-    return codec_allowed
 
 def mod_cue_target_file(cue_sheet):
     cue_path=os.path.join(app.config['UPLOAD_FOLDER'], cue_sheet)
@@ -186,10 +166,9 @@ def download_file(name):
         zip_path = Path(comprimido).resolve()
         zip_name = str(zip_path.stem)+'.zip'
         respuesta = send_from_directory(app.config['UPLOAD_FOLDER'], zip_name)
-        #respuesta = send_from_directory(app.config['UPLOAD_FOLDER'], comprimido.split('/')[-1])
         respuesta.headers['Access-Control-Expose-Headers'] = 'Content-Disposition'
         return respuesta
-        #return send_from_directory(app.config['UPLOAD_FOLDER'], comprimido.split('/')[2], as_attachment=True)
+
     except InvalidFileError:
         error = {}
         error['error'] = "InvalidFileError: "+name+" no existe en el directorio."

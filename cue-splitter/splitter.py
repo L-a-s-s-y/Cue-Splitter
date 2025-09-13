@@ -2,10 +2,6 @@ from ffcuesplitter.cuesplitter import FFCueSplitter
 from ffcuesplitter.user_service import FileSystemOperations
 from pathlib import Path
 import shutil
-import os
-from charset_normalizer import from_path
-
-ALLOWED_EXTENSIONS = {'flac', 'opus', 'mp3', 'wav', 'ogg', 'wv'}
 
 def album_info(aCueSheet):
     respuesta = {}
@@ -53,28 +49,6 @@ def album_info(aCueSheet):
         respuesta['channel_layout'] = getdata.probedata[0]['streams'][0]['channel_layout']
     #print(getdata.probedata[0]['streams'][0]['sample_rate'])
     return respuesta
-
-def allowed_audio(filename):
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def check_codec_target_file(cue_path):
-    expected_audio_file = None
-
-    codec_allowed = False
-
-    if os.path.exists(cue_path): # Si el cue está en el servidor
-        result = from_path(cue_path)
-        best_match = result.best()
-        #cue_en_lista = best_match.decoded.splitlines(keepends=True)
-        with open(cue_path, 'r', encoding=best_match.encoding) as mod_cue:
-            cue_en_lista = [line for line in mod_cue]
-        print("--------------------------------------")
-        for i in range(len(cue_en_lista)):
-            if cue_en_lista[i].split(' ')[0] == "FILE":
-                audio_file = cue_en_lista[i].split('\"')
-                codec_allowed = check_codec_target_file(audio_file[1])
-    return codec_allowed
 
 def split_it_like_solomon(
 cue_file, output_format, 
