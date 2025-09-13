@@ -4,10 +4,10 @@ RUN apk add ffmpeg
 WORKDIR /app
 
 # Copy project files
-COPY ffcuesplitter-rest-api/*.py ./
-COPY ffcuesplitter-rest-api/templates ./templates
-COPY ffcuesplitter-rest-api/static ./static
-COPY ffcuesplitter-rest-api/requirements.txt ./
+COPY cue-splitter/*.py ./
+COPY cue-splitter/templates ./templates
+COPY cue-splitter/static ./static
+COPY cue-splitter/requirements.txt ./
 
 # Create venv
 RUN python3 -m venv venv

@@ -6,7 +6,6 @@ from ffcuesplitter.cuesplitter import InvalidFileError
 from ffcuesplitter.cuesplitter import FFCueSplitterError
 from werkzeug.middleware.proxy_fix import ProxyFix
 from pathlib import Path
-import logging
 import splitter
 
 #flask --app api run --host='0.0.0.0'
