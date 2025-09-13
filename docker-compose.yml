@@ -11,7 +11,7 @@ services:
       - CUE_GUNICORN_WORKERS=4
       - CUE_API_TIMEOUT=300
     volumes:
-      - ./cue-splitter:/cue-splitter
+      - /tmp/splitter:/tmp/splitter
     networks:
       - cue-splitter
     restart: unless-stopped
