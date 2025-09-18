@@ -40,7 +40,6 @@ def mod_cue_target_file(cue_sheet):
     if os.path.exists(cue_path): # Si el cue está en el servidor
         result = from_path(cue_path)
         best_match = result.best()
-        #cue_en_lista = best_match.decoded.splitlines(keepends=True)
         with open(cue_path, 'r', encoding=best_match.encoding) as mod_cue:
             cue_en_lista = [line for line in mod_cue]
         print("--------------------------------------")
